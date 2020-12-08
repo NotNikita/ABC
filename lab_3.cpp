@@ -1,4 +1,4 @@
-﻿#include <iostream>
+#include <iostream>
 #include <cstdlib>
 #include <stdio.h>
 #include <time.h>
@@ -48,6 +48,10 @@ int main(int argc, char** argv) // ВАРИАНТ 3. УМНОЖЕНИЕ МАТР
     for (int i = 0; i < n1; i++) {
         result[i] = (int*)malloc(sizeof(int) * m2);
     }
+    int** result2 = (int**)malloc(sizeof(int*) * n1);;
+    for (int i = 0; i < n1; i++) {
+        result2[i] = (int*)malloc(sizeof(int) * m2);
+    }
 
     //Устанавливаем число потоков
     int threadsNum = 2; // По умолчанию используется 8
@@ -63,9 +67,30 @@ int main(int argc, char** argv) // ВАРИАНТ 3. УМНОЖЕНИЕ МАТР
             }
         }
     }
-
     auto time = high_resolution_clock::now() - begin; // time finish
-    cout << "runtime = " << duration<double>(time).count() << endl;
+    cout << "Parallel runtime = " << duration<double>(time).count() << endl;
+
+    // One Main Thread
+    begin = high_resolution_clock::now();
+    for (i = 0; i < n1; i++) {
+        for (j = 0; j < m2; j++) {
+            result2[i][j] = 0;
+            for (k = 0; k < m1; k++) {
+                result2[i][j] += (matrix1[i][k] * matrix2[k][j]);
+            }
+        }
+    }
+    time = high_resolution_clock::now() - begin; // time finish
+    cout << "1 Thread runtime = " << duration<double>(time).count() << endl;
+
+    bool areEqual = true;
+    for (i = 0; i < n1; i++) {
+        for (j = 0; j < m2; j++) {
+            if (result[i][j] != result2[i][j])
+                areEqual = false;
+        }
+    }
+    cout << "\nMatrixis are  " << areEqual;
     return 0;
 }
 
