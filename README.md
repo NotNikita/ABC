@@ -7,7 +7,12 @@
 Переделывается MMX на C++.
 <br>
 ### Лаба 2
-## Chapter 1. output:
 
+Лабораторная разбита на 2 части:
+part1.cpp<br>
+part2.cpp
 <br><br>
-## Chapter 2. output:
+
+### Лаба 3
+
+lab_3.cpp
